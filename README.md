@@ -88,7 +88,7 @@ Input Image (224 x 224 x 3)
    └── Dense (4 units, Softmax) ──▶ Multi-class Disease Prediction
 ```
 
-- **Optimizer:** Adam ($\text{learning\_rate} = 1\times 10^{-3}$)
+- **Optimizer:** Adam (`lr = 0.001`)
 - **Loss Function:** Categorical Cross-Entropy
 - **Regularization:** Batch Normalization, Dropout (50%), Data Augmentation
 

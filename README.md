@@ -1,133 +1,123 @@
-﻿# Rice Leaf Disease Detection using Neural Networks & Data Augmentation
+# 🌾 Rice Leaf Disease Detection using CNN & Data Augmentation
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/TensorFlow-2.x-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" />
-  <img src="https://img.shields.io/badge/Jupyter-Notebook-F37626?style=for-the-badge&logo=jupyter&logoColor=white" />
   <img src="https://img.shields.io/badge/OpenCV-4.x-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white" />
+  <img src="https://img.shields.io/badge/Architecture-Custom%20CNN-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Developer-ddloi-58A6FF?style=for-the-badge&logo=github&logoColor=white" />
 </p>
 
 <p align="center">
-  An academic research project applying Convolutional Neural Networks (CNN) and data augmentation techniques to detect rice leaf diseases from image data.
+  An end-to-end Computer Vision & Deep Learning pipeline for automated classification of rice leaf diseases, developed by <strong>Đặng Đại Lợi (<a href="https://github.com/ddloi">@ddloi</a>)</strong>.
 </p>
 
 ---
 
-## Research Overview
+## 📌 Executive Summary
 
-Rice is one of the most important staple crops in Southeast Asia. Early detection of leaf diseases can prevent significant crop losses. This project develops a deep learning pipeline that:
-
-1. Collects and preprocesses rice leaf image datasets
-2. Applies **data augmentation** to address class imbalance
-3. Trains a **CNN-based classifier** to distinguish between healthy and diseased leaves
-4. Evaluates model performance with accuracy, precision, recall, and F1-score
-
----
-
-## Disease Categories
-
-| Class | Description |
-|---|---|
-| Healthy | Normal, disease-free rice leaves |
-| Bacterial Leaf Blight | Caused by *Xanthomonas oryzae* |
-| Brown Spot | Caused by *Bipolaris oryzae* |
-| Leaf Smut | Caused by *Entyloma oryzae* |
+Rice is the primary staple crop in Vietnam and Southeast Asia. Early and accurate detection of foliar diseases is critical to safeguarding agricultural yields. This research project implements a full deep learning workflow:
+1. **Curates & normalizes** rice leaf images across 4 distinct health categories.
+2. **Applies data augmentation** to balance class distribution and prevent overfitting.
+3. **Trains a Convolutional Neural Network (CNN)** with BatchNormalization and Dropout regularization.
+4. **Evaluates performance** with class-wise Precision, Recall, F1-Score, and Confusion Matrix.
 
 ---
 
-## Methodology
+## 📸 Visual Showcase & Demo Figures
 
-### 1. Data Collection & Preprocessing
-- Dataset sourced from publicly available rice disease image repositories
-- Images resized to a uniform resolution (e.g., 224x224)
-- Normalization applied (pixel values scaled to [0, 1])
+### 1. Dataset Samples
+<p align="center">
+  <img src="assets/sample_diseased_leaves.png" alt="Sample Diseased Leaves" width="90%" />
+  <br/>
+  <em>Figure 1: Representative leaf samples across Healthy, Bacterial Leaf Blight, Brown Spot, and Leaf Smut classes.</em>
+</p>
 
-### 2. Data Augmentation
-To combat data imbalance and improve generalization:
-- Random horizontal/vertical flip
-- Random rotation (up to 30 degrees)
-- Brightness and contrast jitter
-- Zoom and crop transformations
+### 2. Data Augmentation Pipeline
+<p align="center">
+  <img src="assets/data_augmentation_samples.png" alt="Data Augmentation Samples" width="90%" />
+  <br/>
+  <em>Figure 2: Real-time image augmentation transformations (rotation, horizontal flip, zoom, illumination shifts).</em>
+</p>
 
-### 3. Model Architecture
-- **Base Model:** Custom CNN / Transfer Learning (e.g., MobileNetV2 / VGG16)
-- **Layers:** Convolutional, MaxPooling, BatchNormalization, Dropout, Dense
-- **Optimizer:** Adam
+### 3. Model Training History
+<p align="center">
+  <img src="assets/training_history_loss_acc.png" alt="Training Loss and Accuracy" width="85%" />
+  <br/>
+  <em>Figure 3: Training vs. Validation Loss and Accuracy convergence curves across epochs.</em>
+</p>
+
+### 4. Confusion Matrix & Classification Metrics
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>Confusion Matrix</strong></td>
+      <td align="center"><strong>Classification Report Heatmap</strong></td>
+    </tr>
+    <tr>
+      <td><img src="assets/confusion_matrix.png" alt="Confusion Matrix" width="420" /></td>
+      <td><img src="assets/classification_report.png" alt="Classification Report" width="420" /></td>
+    </tr>
+  </table>
+</div>
+
+---
+
+## 🏷️ Disease Classification Taxonomy
+
+| Class | Causative Agent | Key Symptoms |
+| :--- | :--- | :--- |
+| **Healthy** | None | Uniform green leaves, no lesions or discoloration |
+| **Bacterial Leaf Blight** | *Xanthomonas oryzae* | Water-soaked to yellowish-white stripes along leaf margins |
+| **Brown Spot** | *Bipolaris oryzae* | Small, oval to circular dark brown lesions with yellow halo |
+| **Leaf Smut** | *Entyloma oryzae* | Slightly raised angular black spots scattered on leaf blades |
+
+---
+
+## 🏗️ Deep Learning Architecture
+
+```text
+Input Image (224 x 224 x 3)
+   │
+   ├── Conv2D (32 filters, 3x3) ──▶ BatchNorm ──▶ ReLU ──▶ MaxPool2D (2x2)
+   ├── Conv2D (64 filters, 3x3) ──▶ BatchNorm ──▶ ReLU ──▶ MaxPool2D (2x2)
+   ├── Conv2D (128 filters, 3x3) ──▶ BatchNorm ──▶ ReLU ──▶ MaxPool2D (2x2)
+   │
+   ├── Flatten
+   ├── Dense (256 units) ──▶ ReLU ──▶ Dropout (0.5)
+   └── Dense (4 units, Softmax) ──▶ Multi-class Disease Prediction
+```
+
+- **Optimizer:** Adam ($\text{learning\_rate} = 1\times 10^{-3}$)
 - **Loss Function:** Categorical Cross-Entropy
-
-### 4. Evaluation Metrics
-- Accuracy
-- Precision / Recall / F1-Score (per class)
-- Confusion Matrix
-- Training & Validation loss/accuracy curves
+- **Regularization:** Batch Normalization, Dropout (50%), Data Augmentation
 
 ---
 
-## Tech Stack
+## 🚀 Reproduction & How to Run
 
-| Tool | Purpose |
-|---|---|
-| Python 3.x | Core language |
-| TensorFlow / Keras | Deep learning framework |
-| OpenCV | Image processing & augmentation |
-| NumPy / Pandas | Data manipulation |
-| Matplotlib / Seaborn | Visualization |
-| scikit-learn | Evaluation metrics |
-| Jupyter Notebook | Development environment |
+### 1. Clone the Repository
+```bash
+git clone https://github.com/ddloi/rice-leaf-disease-cnn.git
+cd rice-leaf-disease-cnn
+```
 
----
-
-## How to Run
-
-### Prerequisites
-
+### 2. Environment Setup
 ```bash
 pip install tensorflow opencv-python numpy pandas matplotlib seaborn scikit-learn jupyter
 ```
 
-### Run the Notebook
-
+### 3. Run Jupyter Notebook
 ```bash
-git clone https://github.com/DataZenLab/rice-leaf-disease-detection.git
-cd rice-leaf-disease-detection
 jupyter notebook rice_leaf_disease_detection.ipynb
 ```
 
-### Dataset Setup
-
-1. Download the dataset (link in the notebook)
-2. Place images in a folder structure:
-```
-dataset/
-├── healthy/
-├── bacterial_leaf_blight/
-├── brown_spot/
-└── leaf_smut/
-```
-
 ---
 
-## Results
+## 👨‍💻 Author & Contact
 
-> Detailed results including accuracy graphs and confusion matrices are available inside the notebook.
-
----
-
-## Academic Context
-
-- **Course:** Introduction to Deep Learning / Computer Vision
-- **Institution:** University of Information Technology (UIT), Vietnam
-- **Team:** Group 8
-
----
-
-## Author
-
-**DataZenLab**
-- GitHub: [@DataZenLab](https://github.com/DataZenLab)
-
----
-
-## License
-
-This project is for academic purposes. Dataset credits go to the original data providers.
+- **Developer:** Đặng Đại Lợi
+- **GitHub:** [@ddloi](https://github.com/ddloi)
+- **Email:** [dangdailoi732006@gmail.com](mailto:dangdailoi732006@gmail.com)
+- **LinkedIn:** [ddloi](https://www.linkedin.com/in/ddloi)
+- **Institution:** HUFLIT (Ho Chi Minh City University of Foreign Languages & Information Technology)
